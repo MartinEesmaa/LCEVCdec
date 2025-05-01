@@ -43,10 +43,8 @@ static CPUAccelerationFeatures_t detectX86Features(void) { return CAFSSE; }
 /*! \brief Helper function for loading CPUID. */
 static void loadCPUInfo(int32_t cpuInfo[4], int32_t field)
 {
-#if VN_OS(WINDOWS)
+#if VN_COMPILER(MSVC)
     __cpuid(cpuInfo, field);
-#elif (VN_OS(LINUX) || VN_OS(ANDROID)) && !VN_OS(BROWSER)
-    __cpuid_count(field, 0, cpuInfo[0], cpuInfo[1], cpuInfo[2], cpuInfo[3]);
 #elif VN_OS(MACOS) || VN_OS(IOS) || VN_OS(TVOS)
     __asm__ __volatile__("xchg %%ebx, %k[tempreg]\n\t"
                          "cpuid\n\t"
@@ -54,6 +52,8 @@ static void loadCPUInfo(int32_t cpuInfo[4], int32_t field)
                          : "=a"(cpuInfo[0]), [tempreg] "=&r"(cpuInfo[1]), "=c"(cpuInfo[2]),
                            "=d"(cpuInfo[3])
                          : "a"(field), "c"(0));
+#elif (VN_COMPILER(CLANG) || VN_COMPILER(GCC)) && !VN_OS(BROWSER)
+    __cpuid_count(field, 0, cpuInfo[0], cpuInfo[1], cpuInfo[2], cpuInfo[3]);
 #elif !VN_OS(BROWSER)
 #error "Unsupported platform for CPUID"
 #endif
