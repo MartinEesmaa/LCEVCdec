@@ -14,7 +14,7 @@
 
 include("Sources.cmake")
 
-add_library(lcevc_dec_api_utility STATIC ${SOURCES} ${HEADERS} ${INTERFACES})
+add_library(lcevc_dec_api_utility OBJECT ${SOURCES} ${HEADERS} ${INTERFACES})
 lcevc_set_properties(lcevc_dec_api_utility)
 
 target_include_directories(lcevc_dec_api_utility PUBLIC "${CMAKE_CURRENT_LIST_DIR}/include")
