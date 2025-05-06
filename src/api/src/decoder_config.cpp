@@ -15,7 +15,7 @@
 #include "decoder_config.h"
 
 #include "enums.h"
-#include "lcevc_config.h"
+#include "LCEVC/lcevc_config.h"
 #include "log.h"
 
 #include <LCEVC/lcevc_dec.h>

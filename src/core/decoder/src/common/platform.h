@@ -19,7 +19,7 @@
 #define __STDC_LIMIT_MACROS
 #endif /* __STDC_LIMIT_MACROS */
 
-#include "lcevc_config.h"
+#include "LCEVC/lcevc_config.h"
 
 #include <limits.h>
 #include <stdbool.h>

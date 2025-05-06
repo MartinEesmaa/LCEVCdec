@@ -27,7 +27,7 @@
 #include "decode/decode_serial.h"
 #include "decode/deserialiser.h"
 #include "LCEVC/PerseusDecoder.h"
-#include "lcevc_config.h"
+#include "LCEVC/lcevc_config.h"
 #include "surface/blit.h"
 #include "surface/sharpen.h"
 #include "surface/surface.h"

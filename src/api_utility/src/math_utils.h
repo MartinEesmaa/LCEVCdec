@@ -22,7 +22,7 @@
 #include <string>
 #include <string_view>
 #include <vector>
-#include "lcevc_config.h"
+#include <LCEVC/lcevc_config.h>
 
 #if VN_COMPILER(MSVC)
 #include <intrin.h>

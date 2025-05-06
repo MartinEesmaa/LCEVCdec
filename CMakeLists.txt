@@ -119,7 +119,7 @@ endif ()
 include(GNUInstallDirs)
 
 # Record configuration - header and README
-configure_file("cmake/templates/lcevc_config.h.in" "generated/lcevc_config.h")
+configure_file("cmake/templates/lcevc_config.h.in" "generated/LCEVC/lcevc_config.h")
 configure_file("cmake/templates/README.md.in" "install_config/README.md")
 configure_file("cmake/templates/lcevc_dec.pc.in" "generated/lcevc_dec.pc" @ONLY)
 
@@ -135,7 +135,7 @@ install(FILES "LICENSE.md" DESTINATION "${CMAKE_INSTALL_DOCDIR}/licenses")
 if (NOT CMAKE_INSTALL_INCLUDEDIR)
     set(CMAKE_INSTALL_INCLUDEDIR include)
 endif ()
-install(FILES "${CMAKE_BINARY_DIR}/generated/lcevc_config.h" DESTINATION "include")
+install(FILES "${CMAKE_BINARY_DIR}/generated/LCEVC/lcevc_config.h" DESTINATION "include/LCEVC")
 install(FILES "include/LCEVC/lcevc.h" DESTINATION "include/LCEVC")
 
 #

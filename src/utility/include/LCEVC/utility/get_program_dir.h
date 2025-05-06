@@ -17,7 +17,7 @@
 #ifndef VN_LCEVC_UTILITY_GET_PROGRAM_DIR_H
 #define VN_LCEVC_UTILITY_GET_PROGRAM_DIR_H
 
-#include "lcevc_config.h"
+#include <LCEVC/lcevc_config.h>
 
 #include <string>
 

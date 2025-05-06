@@ -17,7 +17,7 @@
 #include "test_decoder.h"
 
 #include "data.h"
-#include "lcevc_config.h"
+#include "LCEVC/lcevc_config.h"
 #include "utils.h"
 
 #include <decoder.h>

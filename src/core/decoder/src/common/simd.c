@@ -21,7 +21,7 @@
 #endif
 
 #include "common/types.h"
-#include "lcevc_config.h"
+#include "LCEVC/lcevc_config.h"
 
 #include <stdbool.h>
 #include <stdint.h>

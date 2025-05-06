@@ -16,7 +16,7 @@
 
 #include "common/log.h"
 #include "common/memory.h"
-#include "lcevc_config.h"
+#include "LCEVC/lcevc_config.h"
 
 #include <assert.h>
 #include <stdint.h>

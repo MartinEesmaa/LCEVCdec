@@ -17,7 +17,7 @@
 #include "common/log.h"
 #include "common/threading.h"
 #include "common/types.h"
-#include "lcevc_config.h"
+#include "LCEVC/lcevc_config.h"
 #include "surface/blit_common.h"
 #include "surface/surface.h"
 

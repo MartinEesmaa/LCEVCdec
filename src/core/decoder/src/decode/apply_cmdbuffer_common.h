@@ -15,7 +15,7 @@
 #ifndef VN_DEC_CORE_APPLY_CMDBUFFER_COMMON_H_
 #define VN_DEC_CORE_APPLY_CMDBUFFER_COMMON_H_
 
-#include "lcevc_config.h"
+#include "LCEVC/lcevc_config.h"
 #include "surface/surface.h"
 
 #include <stddef.h>

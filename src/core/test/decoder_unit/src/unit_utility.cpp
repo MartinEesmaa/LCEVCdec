@@ -14,7 +14,7 @@
 
 #include "unit_utility.h"
 
-#include "lcevc_config.h"
+#include "LCEVC/lcevc_config.h"
 #include "unit_rng.h"
 
 #include <gtest/gtest.h>
