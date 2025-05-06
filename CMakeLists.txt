@@ -119,6 +119,31 @@ endif ()
 include(GNUInstallDirs)
 
 # Record configuration - header and README
+if (NOT BUILD_SHARED_LIBS)
+  if(CMAKE_SYSTEM_NAME STREQUAL "Android")
+    set(PC_EXTRA_LIBS "-lc++")
+  elseif(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+    set(PC_EXTRA_LIBS "-lstdc++")
+  elseif(CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
+    # Further check if libc++ is used instead of libstdc++
+    include(CheckCXXSourceCompiles)
+    check_cxx_source_compiles("
+        #include <cstddef>
+        int main() {
+            #if defined(_LIBCPP_VERSION)
+            return 0;
+            #else
+            return 1;
+            #endif
+        }" USING_LIBCXX)
+
+    if(USING_LIBCXX)
+      set(PC_EXTRA_LIBS "-lc++")
+    else()
+      set(PC_EXTRA_LIBS "-lstdc++")
+    endif()
+  endif()
+endif ()
 configure_file("cmake/templates/lcevc_config.h.in" "generated/LCEVC/lcevc_config.h")
 configure_file("cmake/templates/README.md.in" "install_config/README.md")
 configure_file("cmake/templates/lcevc_dec.pc.in" "generated/lcevc_dec.pc" @ONLY)
