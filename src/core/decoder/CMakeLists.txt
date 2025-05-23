@@ -1,4 +1,4 @@
-# Copyright (c) V-Nova International Limited 2022-2024. All rights reserved.
+# Copyright (c) V-Nova International Limited 2022-2025. All rights reserved.
 # This software is licensed under the BSD-3-Clause-Clear License by V-Nova Limited.
 # No patent licenses are granted under this license. For enquiries about patent licenses,
 # please contact legal@v-nova.com.
@@ -126,14 +126,10 @@ if (EMSCRIPTEN)
         "_perseus_get_version"
         "_perseus_start_tracing"
         "_perseus_end_tracing"
-        "_perseus_decoder_get_last_error_wrapper"
-        "_CoreVersion"
-        "_CoreVersionFull"
-        "_CoreHash"
-        "_CoreHashShort")
+        "_perseus_decoder_get_last_error_wrapper")
 
     set(LCEVC_CORE_BC_FILE
-        ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}${CMAKE_STATIC_LIBRARY_PREFIX}lcevc_dec_core${CMAKE_STATIC_LIBRARY_SUFFIX}
+        ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}${CMAKE_STATIC_LIBRARY_PREFIX}lcevc_dec_core${CMAKE_STATIC_LIBRARY_SUFFIX}
     )
     set(LCEVC_CORE_JS_FILE
         ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}${CMAKE_STATIC_LIBRARY_PREFIX}lcevc_dec_core.js)
@@ -177,7 +173,7 @@ else ()
     install(TARGETS lcevc_dec_core)
 endif ()
 
-install(FILES ${INTERFACES} DESTINATION "include/LCEVC")
+install(FILES ${INTERFACES} DESTINATION "include/LCEVC/core")
 
 # -------------------------------------------------------------------------------
 

@@ -60,35 +60,41 @@ else ()
         COMMAND git rev-parse --verify --short=8 HEAD
         WORKING_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}
         OUTPUT_VARIABLE GIT_HASH
-        OUTPUT_STRIP_TRAILING_WHITESPACE)
+        OUTPUT_STRIP_TRAILING_WHITESPACE ERROR_QUIET)
     execute_process(
         COMMAND git rev-parse --verify --short=10 HEAD
         WORKING_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}
         OUTPUT_VARIABLE GIT_LONG_HASH
-        OUTPUT_STRIP_TRAILING_WHITESPACE)
+        OUTPUT_STRIP_TRAILING_WHITESPACE ERROR_QUIET)
     execute_process(
         COMMAND git log -1 --format=%cd --date=format:%Y-%m-%d
         WORKING_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}
         OUTPUT_VARIABLE GIT_DATE
-        OUTPUT_STRIP_TRAILING_WHITESPACE)
+        OUTPUT_STRIP_TRAILING_WHITESPACE ERROR_QUIET)
     execute_process(
         COMMAND git rev-parse --abbrev-ref HEAD
         WORKING_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}
         OUTPUT_VARIABLE GIT_BRANCH
-        OUTPUT_STRIP_TRAILING_WHITESPACE)
+        OUTPUT_STRIP_TRAILING_WHITESPACE ERROR_QUIET)
     execute_process(
         COMMAND git describe --match "*.*.*" --dirty
         WORKING_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}
         OUTPUT_VARIABLE GIT_VERSION
-        OUTPUT_STRIP_TRAILING_WHITESPACE)
+        OUTPUT_STRIP_TRAILING_WHITESPACE ERROR_QUIET)
     execute_process(
         COMMAND git describe --match "*.*.*" --abbrev=0
         WORKING_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}
         OUTPUT_VARIABLE GIT_SHORT_VERSION
-        OUTPUT_STRIP_TRAILING_WHITESPACE)
+        OUTPUT_STRIP_TRAILING_WHITESPACE ERROR_QUIET)
 endif ()
 
-message(STATUS "Git: Version=${GIT_VERSION} ShortVersion=${GIT_SHORT_VERSION} Hash=${GIT_HASH}")
+if (GIT_VERSION STREQUAL ""
+    OR GIT_SHORT_VERSION STREQUAL ""
+    OR GIT_HASH STREQUAL "")
+    message(WARNING "Cannot determine git version, please clone from a git repo")
+else ()
+    message(STATUS "Git: Version=${GIT_VERSION} ShortVersion=${GIT_SHORT_VERSION} Hash=${GIT_HASH}")
+endif ()
 
 # Default MSVC runtime library, this has to before the 'project()' command
 cmake_policy(SET CMP0091 NEW)
@@ -113,12 +119,6 @@ function (
     set(PATH_SRC "${CMAKE_CURRENT_BINARY_DIR}/${TARGET}.${SRC_SUFFIX}")
     file(TOUCH "${PATH_SRC}")
 
-    if (EXISTS "${CMAKE_SOURCE_DIR}/.githash")
-        set(OPT_GIT_VERSION "--git_version=${GIT_VERSION}")
-        set(OPT_GIT_HASH "--git_hash=${GIT_HASH}")
-        set(OPT_GIT_DATE "--git_date=${GIT_DATE}")
-    endif ()
-
     set(PATH_H "${CMAKE_CURRENT_BINARY_DIR}/${TARGET}.h")
     file(TOUCH "${PATH_H}")
 
@@ -131,27 +131,34 @@ function (
         list(APPEND TARGET_SOURCES "${PATH_RC}")
     endif ()
 
-    # Custom target
-    source_group("version_info" FILES ${TARGET_SOURCES})
-
-    add_custom_target(
-        ${TARGET}_generate
-        DEPENDS "${CMAKE_SOURCE_DIR}/cmake/tools/version_files.py"
-        SOURCES "${CMAKE_SOURCE_DIR}/cmake/tools/version_files.py"
-        COMMAND
-            Python3::Interpreter "${CMAKE_SOURCE_DIR}/cmake/tools/version_files.py" --component
-            "${COMPONENT}" --name "${NAME}" --output_src "${PATH_SRC}" --output_h "${PATH_H}"
-            --binary_name "${BINARY}" --binary_type "${TYPE}" --description "${DESC}" "${OPT_RC}"
-            "${OPT_GIT_VERSION}" "${OPT_GIT_HASH}" "${OPT_GIT_DATE}"
-        BYPRODUCTS ${TARGET_SOURCES})
-    set_target_properties(${TARGET}_generate PROPERTIES FOLDER "Version Files")
-
     # Target for dependants
     add_library(${TARGET} INTERFACE)
     target_sources(${TARGET} INTERFACE ${TARGET_SOURCES})
     target_include_directories(${TARGET} INTERFACE "${CMAKE_CURRENT_BINARY_DIR}")
-    add_dependencies(${TARGET} ${TARGET}_generate)
-    set_target_properties(${TARGET} PROPERTIES FOLDER "Version Files")
+
+    if (VN_SDK_BUILD_DETAILS)
+        # Add build details to the target
+        if (EXISTS "${CMAKE_SOURCE_DIR}/.githash")
+            set(OPT_GIT_VERSION "--git_version=${GIT_VERSION}")
+            set(OPT_GIT_HASH "--git_hash=${GIT_HASH}")
+            set(OPT_GIT_DATE "--git_date=${GIT_DATE}")
+        endif ()
+
+        source_group("version_info" FILES ${TARGET_SOURCES})
+        add_custom_target(
+            ${TARGET}_generate
+            DEPENDS "${CMAKE_SOURCE_DIR}/cmake/tools/version_files.py"
+            SOURCES "${CMAKE_SOURCE_DIR}/cmake/tools/version_files.py"
+            COMMAND
+                Python3::Interpreter "${CMAKE_SOURCE_DIR}/cmake/tools/version_files.py" --component
+                "${COMPONENT}" --name "${NAME}" --output_src "${PATH_SRC}" --output_h "${PATH_H}"
+                --binary_name "${BINARY}" --binary_type "${TYPE}" --description "${DESC}"
+                "${OPT_RC}" "${OPT_GIT_VERSION}" "${OPT_GIT_HASH}" "${OPT_GIT_DATE}"
+            BYPRODUCTS ${TARGET_SOURCES})
+        set_target_properties(${TARGET}_generate PROPERTIES FOLDER "Version Files")
+        add_dependencies(${TARGET} ${TARGET}_generate)
+        set_target_properties(${TARGET} PROPERTIES FOLDER "Version Files")
+    endif ()
 
     add_library(lcevc_dec::${TARGET} ALIAS ${TARGET})
 
