@@ -19,7 +19,7 @@
 #include "event_manager.h"
 #include "handle.h"
 #include "interface.h"
-#include "lcevc_config.h"
+#include "LCEVC/lcevc_config.h"
 #include "log.h"
 #include "picture.h"
 #include "picture_lock.h"

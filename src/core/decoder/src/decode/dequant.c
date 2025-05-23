@@ -17,7 +17,7 @@
 #include "common/memory.h"
 #include "common/types.h"
 #include "decode/deserialiser.h"
-#include "lcevc_config.h"
+#include "LCEVC/lcevc_config.h"
 
 #include <assert.h>
 #include <math.h>

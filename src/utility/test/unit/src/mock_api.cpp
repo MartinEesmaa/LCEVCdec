@@ -17,7 +17,7 @@
 // This should be replaced by proper API logging
 //
 #include "LCEVC/lcevc_dec.h"
-#include "lcevc_config.h"
+#include "LCEVC/lcevc_config.h"
 
 #include <fmt/core.h>
 #include <fmt/ostream.h>

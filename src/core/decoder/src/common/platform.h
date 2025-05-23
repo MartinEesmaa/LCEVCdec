@@ -19,7 +19,7 @@
 #define __STDC_LIMIT_MACROS
 #endif /* __STDC_LIMIT_MACROS */
 
-#include "lcevc_config.h"
+#include "LCEVC/lcevc_config.h"
 
 #include <limits.h>
 #include <stdbool.h>
@@ -56,7 +56,7 @@
 /*------------------------------------------------------------------------------
  * Thread local storage.
  *-----------------------------------------------------------------------------*/
-#if VN_OS(WINDOWS)
+#if VN_COMPILER(MSVC)
 #define VN_THREADLOCAL() __declspec(thread)
 #else
 #define VN_THREADLOCAL() __thread
@@ -70,7 +70,7 @@
  *
  * This would align some_array to a 16 byte boundary and default it to 0.
  *-----------------------------------------------------------------------------*/
-#if VN_OS(WINDOWS)
+#if VN_COMPILER(MSVC)
 #define VN_ALIGN(v, a) __declspec(align(a)) v
 #else
 #define VN_ALIGN(v, a) v __attribute__((aligned(a)))

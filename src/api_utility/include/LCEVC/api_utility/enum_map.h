@@ -15,7 +15,7 @@
 #ifndef VN_API_ENUM_MAP_H_
 #define VN_API_ENUM_MAP_H_
 
-#include "lcevc_config.h"
+#include <LCEVC/lcevc_config.h>
 
 #include <cstddef>
 #include <cstring>

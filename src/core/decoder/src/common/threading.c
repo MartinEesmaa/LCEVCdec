@@ -16,7 +16,7 @@
 
 #include "common/log.h"
 #include "common/memory.h"
-#include "lcevc_config.h"
+#include "LCEVC/lcevc_config.h"
 
 #include <assert.h>
 #include <stdint.h>
@@ -82,7 +82,7 @@ static void platformMutexCVWaitTimed(ThreadPlatform_t* platform, uint32_t millis
 #elif VN_CORE_FEATURE(WINTHREADS)
 
 #include <stdbool.h>
-#include <Windows.h>
+#include <windows.h>
 
 #define VN_THREADLOOP_SIGNATURE() static DWORD WINAPI threadLoop(LPVOID data)
 

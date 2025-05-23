@@ -119,24 +119,51 @@ endif ()
 include(GNUInstallDirs)
 
 # Record configuration - header and README
-configure_file("cmake/templates/lcevc_config.h.in" "generated/lcevc_config.h")
+if (NOT BUILD_SHARED_LIBS)
+  if(CMAKE_SYSTEM_NAME STREQUAL "Android")
+    set(PC_EXTRA_LIBS "-lc++ -llog")
+  elseif(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+    set(PC_EXTRA_LIBS "-lstdc++")
+  elseif(CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
+    # Further check if libc++ is used instead of libstdc++
+    include(CheckCXXSourceCompiles)
+    check_cxx_source_compiles("
+        #include <cstddef>
+        int main() {
+            #if defined(_LIBCPP_VERSION)
+            return 0;
+            #else
+            return 1;
+            #endif
+        }" USING_LIBCXX)
+
+    if(USING_LIBCXX)
+      set(PC_EXTRA_LIBS "-lc++")
+    else()
+      set(PC_EXTRA_LIBS "-lstdc++")
+    endif()
+  endif()
+endif ()
+
+set(PC_EXTRA_LIBS "${PC_EXTRA_LIBS} -lm")
+
+configure_file("cmake/templates/lcevc_config.h.in" "generated/LCEVC/lcevc_config.h")
 configure_file("cmake/templates/README.md.in" "install_config/README.md")
 configure_file("cmake/templates/lcevc_dec.pc.in" "generated/lcevc_dec.pc" @ONLY)
 
 # Top level install
 #
-install(FILES "COPYING" DESTINATION "licenses")
+install(FILES "COPYING" DESTINATION "${CMAKE_INSTALL_DOCDIR}/licenses")
 install(FILES "${CMAKE_BINARY_DIR}/install_config/README.md" DESTINATION "${CMAKE_INSTALL_DOCDIR}")
 install(FILES "${CMAKE_BINARY_DIR}/generated/lcevc_dec.pc"
         DESTINATION "${CMAKE_INSTALL_LIBDIR}/pkgconfig/")
-install(DIRECTORY "licenses" DESTINATION "./")
-install(FILES "LICENSE.md" DESTINATION "licenses/LCEVCdec")
+install(FILES "LICENSE.md" DESTINATION "${CMAKE_INSTALL_DOCDIR}/licenses")
 
 #
 if (NOT CMAKE_INSTALL_INCLUDEDIR)
     set(CMAKE_INSTALL_INCLUDEDIR include)
 endif ()
-install(FILES "${CMAKE_BINARY_DIR}/generated/lcevc_config.h" DESTINATION "include")
+install(FILES "${CMAKE_BINARY_DIR}/generated/LCEVC/lcevc_config.h" DESTINATION "include/LCEVC")
 install(FILES "include/LCEVC/lcevc.h" DESTINATION "include/LCEVC")
 
 #
