@@ -15,13 +15,6 @@
 # Target specific configuration - included automatically after project()
 #
 
-# Default install dir is <build>/install
-if (CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
-    set(CMAKE_INSTALL_PREFIX
-        "install"
-        CACHE PATH "Install directory" FORCE)
-endif ()
-
 # Architecture
 #
 # Make a consistent description of target architecture

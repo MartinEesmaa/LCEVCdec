@@ -15,7 +15,7 @@
 #ifndef VN_DEC_CORE_SSE_H_
 #define VN_DEC_CORE_SSE_H_
 
-#include "lcevc_config.h"
+#include "LCEVC/lcevc_config.h"
 
 #if VN_CORE_FEATURE(SSE)
 

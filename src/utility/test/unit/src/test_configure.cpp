@@ -13,7 +13,7 @@
  * THE EXCLUSION OF PATENT LICENSES PROVISION OF THE BSD-3-CLAUSE-CLEAR LICENSE. */
 
 #include "LCEVC/utility/configure.h"
-#include "lcevc_config.h"
+#include "LCEVC/lcevc_config.h"
 #include "mock_api.h"
 
 #include <gtest/gtest.h>

@@ -19,6 +19,7 @@
 #include "common/platform.h"
 #include "common/types.h"
 #include "decode/deserialiser.h"
+#include "LCEVC/lcevc_config.h"
 
 #include <assert.h>
 #include <stdbool.h>
@@ -30,7 +31,7 @@
 
 static inline uint8_t clz(uint32_t streamData, uint8_t numBits)
 {
-#if defined WIN32
+#if VN_COMPILER(MSVC)
     return (uint8_t)(_lzcnt_u32(streamData) + numBits - 32);
 #elif VN_COMPILER(GCC) && (__GNUC__ >= 14)
     /* Annoyingly, it's undefined behaviour if you provide 0 to __builtin_clz. To match the Windows

@@ -48,7 +48,7 @@ add_library(lcevc_dec::core_static ALIAS lcevc_dec_core_static)
 
 # -------------------------------------------------------------------------------
 
-add_library(lcevc_dec_core)
+add_library(lcevc_dec_core OBJECT)
 lcevc_set_properties(lcevc_dec_core)
 
 target_sources(lcevc_dec_core PRIVATE ${SOURCES})
