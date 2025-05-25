@@ -19,6 +19,7 @@
 #include <cstdarg>
 #include <cstdio>
 #include <string>
+#include <cstdint>
 
 #if defined(__APPLE__)
 #include <os/log.h>
