@@ -15,7 +15,10 @@
 cmake_minimum_required(VERSION 3.19.0 FATAL_ERROR)
 
 option(BUILD_SHARED_LIBS "Build shared libraries" ON)
-option(VN_MSVC_RUNTIME_STATIC "Use static multi-threaded runtime for MSVC" ON)
+
+if (MSVC)
+    option(VN_MSVC_RUNTIME_STATIC "Use static multi-threaded runtime for MSVC" ON)
+endif()
 
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake/modules")
 include("VNovaSetup")
