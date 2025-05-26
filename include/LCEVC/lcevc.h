@@ -30,7 +30,7 @@
 #ifdef VNEnablePublicAPIExport
 #define VN_LCEVC_PublicAPI LCEVC_EXTERN_C
 #else
-#define VN_LCEVC_PublicAPI LCEVC_EXTERN_C __declspec(dllimport)
+#define VN_LCEVC_PublicAPI LCEVC_EXTERN_C
 #endif
 #endif
 #else
