@@ -21,7 +21,6 @@
 #ifdef WIN32
 #include <direct.h>
 #include <io.h>
-#include <pthread.h>
 #include <windows.h>
 #define stat _stat
 #else
@@ -37,13 +36,11 @@
 namespace lcevc_dec::decoder {
 
 #if defined(WIN32)
-bool setThreadName(std::wstring_view name)
+bool setThreadName(std::wstring_view /*name*/)
 {
-    const int res = pthread_setname_np(name.data());
-    if (!name.empty()) {
-        if (res != 0) {
-            return false;
-        }
+    // No portable way to set thread name on all Windows versions.
+    // SetThreadDescription is only available on Windows 10+.
+    // For older Windows, this is a no-op.
     return true;
 }
 #else
